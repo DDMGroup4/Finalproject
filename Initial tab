@@ -76,7 +76,7 @@ aggregate(tripduration~start.station.name,dat,mean)
 newtable <- aggregate(tripduration~start.station.name,dat,mean)
 
 newtable
-averageduration <- arrange(newtable, desc(tripduration))
+averageduration <- arrange(newtable, desc(tripduration))[0:20,]
 
 
 day <- substring(dat$starttime,3,4)

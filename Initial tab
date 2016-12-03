@@ -73,6 +73,12 @@ end_point + geom_leg(aes(x = start.station.longitude, y = start.station.latitude
 
 aggregate(tripduration~start.station.name,dat,mean)
 
+newtable <- aggregate(tripduration~start.station.name,dat,mean)
+
+newtable
+averageduration <- arrange(newtable, desc(tripduration))
+
+
 day <- substring(dat$starttime,3,4)
 day <- gsub("/","",day)
 day <- as.numeric(day)
@@ -84,3 +90,5 @@ ymin <- min(day.data$Freq)
 ymax <- max(day.data$Freq)
 plot.window( xlim =c(1,31),ylim=c(ymin,ymax))
 plot(x=day.data$day, y=day.data$Freq,bty="n",yaxt="n",xlab="Day of Month",ylab="Number of bike trip")
+
+

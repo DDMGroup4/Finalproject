@@ -70,13 +70,16 @@ end_point + geom_leg(aes(x = start.station.longitude, y = start.station.latitude
  ###[dat.map.ten$start.station.name== input$StartStation]
   
 ```
+### Average trip duration by station
 
 aggregate(tripduration~start.station.name,dat,mean)
 
 newtable <- aggregate(tripduration~start.station.name,dat,mean)
 
-newtable
 averageduration <- arrange(newtable, desc(tripduration))[0:20,]
+
+mutate(averageduration, rank=row_number(tripduration))
+
 
 
 day <- substring(dat$starttime,3,4)

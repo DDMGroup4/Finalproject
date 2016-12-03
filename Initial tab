@@ -91,4 +91,5 @@ ymax <- max(day.data$Freq)
 plot.window( xlim =c(1,31),ylim=c(ymin,ymax))
 plot(x=day.data$day, y=day.data$Freq,bty="n",yaxt="n",xlab="Day of Month",ylab="Number of bike trip")
 
-
+dat2 <- tbl_df(read.csv( "DC Bike Share.csv", stringsAsFactors=F ))
+str.time <- strptime(dat2$starttime, format = "%m/%d/%Y %H:%M")

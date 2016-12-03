@@ -97,6 +97,7 @@ plot(x=day.data$day, y=day.data$Freq,bty="n",yaxt="n",xlab="Day of Month",ylab="
 dat2 <- tbl_df(read.csv( "DC Bike Share.csv", stringsAsFactors=F ))
 str.time <- strptime(dat2$starttime, format = "%m/%d/%Y %H:%M")
 
+-----------------------------------------------------------DISTANCE-----------------------------------------------------------------
 #4. Distance from two points
 
 #dropping cases where start and end station are =
@@ -125,6 +126,8 @@ gcd.slc <- function(long1, lat1, long2, lat2) {
 dis <- mutate(dis, distance = gcd.slc(long1, lat1, long2, lat2))
 
 mean(dis$distance)
+-----------------------------------------------------------DISTANCE---------------------------------------------------------------------
+
 aggregate(tripduration~start.station.name,dat,mean)
 
 newtable <- aggregate(tripduration~start.station.name,dat,mean)

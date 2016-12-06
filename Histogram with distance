@@ -1,0 +1,27 @@
+#dropping cases where start and end station are =
+dis <- dat
+###dis <- filter(dis,  start.station.id != end.station.id)
+
+#function to convert lat and long to radians
+deg2rad <- function(deg) return(deg*pi/180)
+
+# generating variables with radians
+dis <- mutate(dis, 
+              long1 = deg2rad(start.station.longitude),
+              lat1 = deg2rad(start.station.latitude),
+              long2 = deg2rad(end.station.longitude),
+              lat2 = deg2rad(end.station.latitude)
+              )              
+
+#function to calculate distance using great circle
+gcd.slc <- function(long1, lat1, long2, lat2) {
+  R <- 6371 # Earth mean radius [km]
+  d <- acos(sin(lat1)*sin(lat2) + cos(lat1)*cos(lat2) * cos(long2-long1)) * R
+  return(d) # Distance in km
+}
+
+# Generating variable with the distance.
+dis <- mutate(dis, distance = gcd.slc(long1, lat1, long2, lat2))
+histogram(dis$distance,breaks = seq(0, 9.5, by=0.1))
+
+## Histogram to be finished by Ekaley

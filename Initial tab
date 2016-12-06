@@ -1,3 +1,4 @@
+------------------------------------------- Start: Tab 2: Map -----------------------------------------------------------------------------------
 ####Please use dat as the original data's name
 dat <- read.csv("~/MEI HAN/PAI/Final projects/201501-citibike-tripdata/201501-citibike-tripdata.csv")
 ####For age information, please use the following formula
@@ -70,6 +71,8 @@ end_point + geom_leg(aes(x = start.station.longitude, y = start.station.latitude
  ###[dat.map.ten$start.station.name== input$StartStation]
   
 ```
+------------------------------------------------------End: Tab2: map-----------------------------------------------------------------------------------
+------------------------------------------------------Start: average trip duration calculation---------------------------------------------------
 ### Average trip duration by station
 
 aggregate(tripduration~start.station.name,dat,mean)
@@ -77,6 +80,7 @@ aggregate(tripduration~start.station.name,dat,mean)
 newtable <- aggregate(tripduration~start.station.name,dat,mean)
 
 averageduration <- arrange(newtable, desc(tripduration))[0:20,]
+------------------------------------------------------End: average trip duration calculation-----------------------------------------
 
 mutate(averageduration, rank=row_number(tripduration))
 
@@ -100,7 +104,7 @@ plot(x=day.data$day, y=day.data$Freq,bty="n",yaxt="n",xlab="Day of Month",ylab="
 dat2 <- tbl_df(read.csv( "DC Bike Share.csv", stringsAsFactors=F ))
 str.time <- strptime(dat2$starttime, format = "%m/%d/%Y %H:%M")
 
------------------------------------------------------------DISTANCE-----------------------------------------------------------------
+-----------------------------------------------------------Start: DISTANCE-----------------------------------------------------------------
 #4. Distance from two points
 
 #dropping cases where start and end station are =
@@ -129,7 +133,7 @@ gcd.slc <- function(long1, lat1, long2, lat2) {
 dis <- mutate(dis, distance = gcd.slc(long1, lat1, long2, lat2))
 
 mean(dis$distance)
------------------------------------------------------------DISTANCE---------------------------------------------------------------------
+-----------------------------------------------------------End: DISTANCE---------------------------------------------------------------------
 
 aggregate(tripduration~start.station.name,dat,mean)
 

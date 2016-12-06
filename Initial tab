@@ -240,3 +240,16 @@ title( main="Number of bike trip per hour", line=1 )
 title( xlab="Hour of Day",ylab="Number of bike trip") 
 axis( side=1, tick=T, at=x2,labels=x3 )
 axis( side=2, tick=T, at=y2 )
+
+---------------------------------------datatable-------------
+library( DT )
+DT::renderDataTable()
+datatable(head(dat, 2000), options = list(
+  columnDefs = list(list(className = 'dt-center', targets = 5)),
+  pageLength = 5,
+  lengthMenu = c(5, 10, 15, 20)
+  
+))
+
+
+

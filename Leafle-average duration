@@ -1,0 +1,18 @@
+newtable <- aggregate(tripduration~start.station.name,dat,mean)
+
+averageduration <- arrange(newtable, desc(tripduration))[0:20,]
+averageduration <- mutate(averageduration, rank=row_number(tripduration))
+
+end.station <- unique(data.frame (dat$end.station.name,dat$end.station.latitude,dat$end.station.longitude))
+start.station <- unique(data.frame(dat$start.station.name, dat$start.station.latitude,dat$start.station.longitude))
+
+dat.map.averageduration <- merge(averageduration, start.station , by.x = c("start.station.name"), by.y = c("dat.start.station.name"), all.x = T )
+
+BikeLeafIcon <- makeIcon(
+  iconUrl = "http://cdn.mysitemyway.com/etc-mysitemyway/icons/legacy-previews/icons-256/blue-metallic-orbs-icons-transport-travel/037576-blue-metallic-orb-icon-transport-travel-transportation-bicycle.png",
+  iconWidth = 40, iconHeight = 40,
+  iconAnchorX = 40, iconAnchorY = 40
+)
+
+leaflet(data = dat.map.averageduration) %>% addTiles() %>%
+  addMarkers(dat.map.averageduration$dat.start.station.longitude, dat.map.averageduration$dat.start.station.latitude, icon=BikeLeafIcon)

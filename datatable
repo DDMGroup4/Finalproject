@@ -1,0 +1,8 @@
+library( DT )
+DT::renderDataTable()
+datatable(head(dat, 2000), options = list(
+  columnDefs = list(list(className = 'dt-center', targets = 5)),
+  pageLength = 5,
+  lengthMenu = c(5, 10, 15, 20)
+  )
+  )

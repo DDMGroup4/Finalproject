@@ -241,7 +241,7 @@ title( xlab="Hour of Day",ylab="Number of bike trip")
 axis( side=1, tick=T, at=x2,labels=x3 )
 axis( side=2, tick=T, at=y2 )
 
----------------------------------------datatable-------------
+---------------------------------------datatable------------------------------------------------------------------------------------------------
 library( DT )
 DT::renderDataTable()
 datatable(head(dat, 2000), options = list(

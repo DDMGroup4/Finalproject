@@ -1,0 +1,24 @@
+aggregate(tripduration~start.station.name,dat,mean)
+
+newtable <- aggregate(tripduration~start.station.name,dat,mean)
+
+averageduration <- arrange(newtable, desc(tripduration))[0:20,]
+averageduration <- mutate(averageduration, rank=row_number(tripduration))
+
+end.station <- unique(data.frame (dat$end.station.name,dat$end.station.latitude,dat$end.station.longitude))
+start.station <- unique(data.frame(dat$start.station.name, dat$start.station.latitude,dat$start.station.longitude))
+
+dat.map.averageduration <- merge(averageduration, start.station , by.x = c("start.station.name"), by.y = c("dat.start.station.name"), all.x = T )
+
+
+nyc <- get_map( location='new york city, ny', zoom = 12, color="bw" )
+ggmap(nyc)
+
+color.function <- colorRampPalette(c("yellow","orange","red"))
+
+top.average.duration <- geom_point( data=dat.map.averageduration, 
+                                       aes( x=dat.start.station.longitude, y=dat.start.station.latitude), 
+                                       
+                                       col=color.function(20)[cut(dat.map.averageduration$rank, c(0:20))],
+                                       size=dat.map.averageduration$tripduration/1000)
+ggmap(nyc) + top.average.duration

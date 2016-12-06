@@ -1,0 +1,75 @@
+frequencytablestart <- data.frame(table(dat$start.station.name, dat$usertype))
+colnames(frequencytablestart) <- c("start.station.name", "usertype", "frequency")
+start.station <- unique(data.frame(dat$start.station.name, dat$start.station.latitude,dat$start.station.longitude))
+dat.map.start.frequency <- merge(frequencytablestart, start.station , by.x = c("start.station.name"), by.y = c("dat.start.station.name"), all.x = T )
+dat.map.start.rank <- transform(dat.map.start.frequency, Rank = ave (frequency, usertype, FUN = function(x) + rank (-x, ties.method ="min")))
+
+```
+```
+
+
+```{r shiny shiny, echo = F}
+nyc <- get_map( location='new york city, ny', zoom = 10, color="bw" )
+
+selectInput( 
+             inputId= 'UserType', 
+             label='Select User Type',
+             choices = unique(dat.map.start.rank$usertype),
+             selected = "Subscriber"
+           )
+sliderInput("StartStationRank", label = ("Rank Range"), min = 1, 
+        max = 100, value = 10)
+
+renderPlot({
+  nyc <- get_map( location='new york city, ny', zoom = input$Zoom, color="bw" ) 
+  start_rank_point <- ggmap(nyc, extent= "device") 
+  start_rank_point <- start_rank_point + geom_point( data=dat.map.start.rank[dat.map.start.rank$usertype== "Subscriber" & dat.map.start.rank$Rank <= input$StartStationRank, ], 
+                                       aes( x=dat.start.station.longitude, y=dat.start.station.latitude, size=frequency/10), 
+                                       
+                                       color="Blue", size = 5
+                                       )
+  start_rank_point <- start_rank_point + geom_point( data=dat.map.start.rank[dat.map.start.rank$usertype== "Customer" & dat.map.start.rank$Rank <= input$StartStationRank, ], 
+                                       aes( x=dat.start.station.longitude, y=dat.start.station.latitude, size=frequency/10), 
+                                       
+                                       color="Organge", size = 5
+                                       )
+start_rank_point
+
+}, height = 2000, width = 2000)
+ ###[dat.map.ten$start.station.name== input$StartStation]
+  
+```
+
+```{r}
+frequencytableend <- data.frame(table(dat$end.station.name, dat$usertype))
+colnames(frequencytableend) <- c("end.station.name", "usertype", "frequency")
+end.station <- unique(data.frame(dat$end.station.name, dat$end.station.latitude,dat$end.station.longitude))
+dat.map.end.frequency <- merge(frequencytableend, end.station , by.x = c("end.station.name"), by.y = c("dat.end.station.name"), all.x = T )
+dat.map.end.rank <- transform(dat.map.end.frequency, Rank = ave (frequency, usertype, FUN = function(x) + rank (-x, ties.method ="min")))
+
+```
+```
+
+
+```{r shiny shiny shiny, echo = F}
+nyc <- get_map( location='new york city, ny', zoom = 10, color="bw" )
+
+sliderInput("EndStationRank", label = ("Rank Range"), min = 1, 
+        max = 100, value = 10)
+
+renderPlot({
+  nyc <- get_map( location='new york city, ny', zoom = input$Zoom, color="bw" ) 
+  end_rank_point <- ggmap(nyc, extent= "device") 
+  end_rank_point <- end_rank_point + geom_point( data=dat.map.end.rank[dat.map.end.rank$usertype== "Subscriber" & dat.map.end.rank$Rank <= input$EndStationRank, ], 
+                                       aes( x=dat.end.station.longitude, y=dat.end.station.latitude, size=frequency/10), 
+                                       
+                                       color="blue", size=5
+                                       )
+  end_rank_point <- end_rank_point + geom_point( data=dat.map.end.rank[dat.map.end.rank$usertype== "Customer" & dat.map.end.rank$Rank <= input$EndStationRank, ], 
+                                       aes( x=dat.end.station.longitude, y=dat.end.station.latitude, size=frequency/10), 
+                                       
+                                       color="Orange", size=5
+                                       )
+end_rank_point
+
+}, height = 2000, width = 2000)

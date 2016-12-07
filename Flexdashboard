@@ -54,6 +54,9 @@ dis <- mutate(dis, distance = gcd.slc(long1, lat1, long2, lat2))
 
 # TAB 2: data subsetS
 
+nyc <- get_map( location='new york city, ny', zoom = input$Zoom, color="bw" ) 
+  ggmap(nyc)
+
 frequencytable <- data.frame(table(dat$start.station.name, dat$end.station.name))
 colnames(frequencytable) <- c("start.station.name", "end.station.name", "frequency")
 
@@ -180,17 +183,11 @@ The trips that have 0 km are cases where the bike was collected and left at the 
     
 ```{r}
 renderPlot({
-  nyc <- get_map( location='new york city, ny', zoom = input$Zoom, color="bw" ) 
-  ggmap(nyc)
-
-  start_point <- ggmap(nyc, extent= "device") 
-
-    start_point <- start_point + geom_point( data = dat.map.ten[dat.map.ten$start.station.name == input$StartStation & dat.map.ten$Rank <= input$RankRange],aes( x=start.station.longitude, y=start.station.latitude),color="black", size=3)
-
+start_point <- ggmap(nyc, extent= "device") 
+start_point <- start_point + geom_point( data = dat.map.ten[dat.map.ten$start.station.name == input$StartStation & dat.map.ten$Rank <= input$RankRange],aes( x=start.station.longitude, y=start.station.latitude),color="black", size=3)
 start_point
 
 end_point <- start_point + geom_point( data=dat.map.ten[dat.map.ten$start.station.name== input$StartStation & dat.map.ten$Rank <= input$RankRange], aes( x=end.station.longitude, y=end.station.latitude), color="blue", size=3)
-
 end_point 
 
 end_point + geom_leg(aes(x = start.station.longitude, y = start.station.latitude, xend = end.station.longitude, yend = end.station.latitude, size = frequency, color = Rank, size = 6), data = dat.map.ten[dat.map.ten$start.station.name== input$StartStation & dat.map.ten$Rank <= input$RankRange] )+ guides(shape=guide_legend(override.aes=list(size=20)))

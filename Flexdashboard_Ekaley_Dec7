@@ -15,7 +15,7 @@ library(data.table)
 library(shiny)
 library(leaflet)
 library(fossil)
-
+library(DT)
 ```
 
 ```{r, echo= FALSE}
@@ -248,7 +248,7 @@ The trips that have 0 km are cases where the bike was collected and left at the 
 ```
 
 
-Most Frequent trips by Station (Map)
+Interactive MAP of NYC CitiBike's Trips
 =====================================     
 
 Column {.sidebar}
@@ -256,7 +256,6 @@ Column {.sidebar}
 Chose your destiny:
 
 ```{r}
-
 selectInput( 
              inputId= 'StartStation', 
              label='Select Start Station',
@@ -270,15 +269,19 @@ sliderInput("Zoom", label = ("Zoom Bar"), min = 10,
 ```
 
 
-Column 
+Column  {.tabset .tabset-fade} 
 -----------------------------    
-  
+### First MAP
+
 We can put text on top or under. We must decide here are random chunks of text.
+
+### Second MAP
 
 The modal distance is less that one km. 
 The trips that have 0 km are cases where the bike was collected and left at the same. The trips that have 0 km are cases where the bike was collected and left at the same station.The longest distane trip was 6 km. That is like riding from. The modal distance is less that one km. The trips that have 0 km are cases where the bike was collected and left at the same station. 
 
-***
+
+### Most Frequent trips by Station
     
 ```{r}
 renderPlot({
@@ -306,10 +309,8 @@ Data table
 =====================================     
 
 Here we can put the data table 
-library( DT )
-DT::datatable(head(dat, 2000), options = list(
-  columnDefs = list(list(className = 'dt-center', targets = 5)),
-  pageLength = 5,
-  lengthMenu = c(5, 10, 15, 20)
-  
-))
+```{r}
+DT:: datatable(head(dat, 2000), options = list(columnDefs = list(list(className = 'dt-center', targets = 5)),  pageLength = 5, lengthMenu = c(5, 10, 15, 20)))
+
+
+```

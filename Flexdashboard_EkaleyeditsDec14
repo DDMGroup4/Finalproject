@@ -197,17 +197,14 @@ text(-1,10000,label="10,000",cex=0.7)
 
 ### Distance Travelled
 
-#### Description
+#### How far do New Yorkers bike ?
 
-Here we can put the graph elaborated by ekaley and Yo. 
-The modal distance is less that one km. 
-The trips that have 0 km are cases where the bike was collected and left at the same station. 
+Upon an analysis of the frequency of distances travelled between different stations, we can infer that the CityBikes in New York are mostly used for short distances: the most frequent travelled distance between two different stations is just below 1km, and the average distance is 1.5km. Half of the trips are between 0.8km and 1.8km, and trips longer than 4.6km are rather rare. The minimum distance travelled is 0.03km and maximum is 9.5km.
 
-####  Graph
-
+Note: in the graph below, the trips that have 0 km are cases where the bike was collected and left at the same station. 
 ```{r}
 #rendering histogram
-  par(mar=c(1,1,1,1))  
+  par(mar=c(1.5,1.5,0,1.5))  
   hist(dis$distance,
        breaks = seq(0, 9.5, by=0.1),
        main = NA,
@@ -229,7 +226,7 @@ The trips that have 0 km are cases where the bike was collected and left at the 
   text(-0.5, 19000, labels="19,000", cex = 0.7)
   
   text(4, 17000, labels="Frequency Distribution\nof Distances Travelled  ", cex = 1.3, font = 2)
-  text(3.62, 14850, labels="In Km, between two different stations", cex = 0.7)
+  text(3.68, 14850, labels="In Km, between two different stations", cex = 0.7)
   
   mtext(0:6, at=0:6, side = 1, line = 0, las = 1, cex = 0.7)
   mtext("Frequency", side = 2, line = 1, cex = 0.85, font = 2)
@@ -359,3 +356,4 @@ Data Table
 
 ```{r}
 DT:: datatable(head(dat, 2000), options = list(columnDefs = list(list(className = 'dt-center', targets = 5)),  pageLength = 5, lengthMenu = c(5, 10, 15, 20)))
+

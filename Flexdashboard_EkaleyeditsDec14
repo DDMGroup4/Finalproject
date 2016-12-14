@@ -76,21 +76,20 @@ The Behaviour of NYC Citibikers
 Column {.tabset .tabset-fade} 
 -----------------------------    
 
-### Bike Trip Frequencies
+### Daily Behavior
 
-#### Description
+#### Weekends and blizzard 
 
 The following graph illustrates the bike trip frequencies per day for the month of January 2015. The weekends and holidays are marked by red dots. The most notable facts on this graph are the two extremely low bike uses on January 18th and 27th. Interestingly enough, we noted that these two points coincide with the prevailing weather (an ice storm on the 18th and a blizzard on the 27th). In addition to this, we can also depict a relative low bike usage for the first week of January compared to the other weeks: this is most likely due to the extending holiday period.  
 
-####  Graph
-
+####  Bike Trip Frequency By Day (January 2015)
 ```{r}
 date <- strptime( as.character(dat$starttime), format = "%m/%d/%Y %H:%M")
 day <- format( date, format = "%d" )
 day.data <- data.frame(table(day))
 
 
-par(mar=c(1.5,1.5,1.5,1.5))  
+par(mar=c(1.5,1.5,0,1.5))  
 plot.new()
 ymin <- min(day.data$Freq)
 ymax <- max(day.data$Freq)
@@ -106,10 +105,11 @@ y1 <- c("0","1000","5000","10000","15000")
 
 lines(x=day.data$day, y=day.data$Freq,bty="n",yaxt="n", col="seagreen3")
 
+# x labels
 mtext(1:31, at=1:31, side = 1, line = -0.5, las = 1, cex = 0.7)
 mtext("Day of the Month", side = 1, line = 0.3, las = 1, cex = 0.7, font = 2)
 
-# y and x labels
+# y labels
 text(-1, 2000, labels="2,000", cex = 0.7)
 text(-1, 4000, labels="4,000", cex = 0.7)
 text(-1, 6000, labels="6,000", cex = 0.7)
@@ -122,12 +122,10 @@ text(-1, 18000, labels="18,000", cex = 0.7)
 
 
 # Title & subtitle
-text(8.3, 16900, labels="Bike Trip Frequencies", cex = 1.3, font = 2)
-text(3.7, 16200, labels="January 2015", cex = 0.8)
-text(4.75, 15700, labels="Weekends & Holidays", cex = 0.6)
-text(5.25, 15300, labels="Weather Related Events", cex = 0.6)
-points(x=1.3, y= 15700, col ="red", pch = 19)
-points(x=1.3, y= 15300, col ="black", pch = 19 )
+text(4.8, 16300, labels="Weekends & Holidays", cex = 0.6)
+text(5.25, 15800, labels="Weather Related Events", cex = 0.6)
+points(x=1.3, y= 16300, col ="red", pch = 19)
+points(x=1.3, y= 15800, col ="black", pch = 19 )
 
 
 # Captions
@@ -158,49 +156,46 @@ points(x=weatherevents, y=number.weatherevents, col="black", pch=19)
 ```
 
 
-### Bike Trip Frequency By Hour
+### Hourly Behavior
 
-#### Description
-Here we can put the graph that mei computed about the most busy stations. 
-the graph is also just an example
+#### Daily routine: peak hours, work and lunch
+On this graph, the average bike trip frequency per hour was plotted for January 2015. In the morning, bikes start to be used slightly before 6AM as people go to work. There is a sharp increase until it reaches the first peak hour around 9AM. After this, usage slightly drops until its lowest point at lunch time, around 12AM. Following this, bike use rises again until the second peak of the day - the highest one - around rush hour and when people leave work: 6PM. Trip frequency then declines trhoughout the evening. 
 
-####  Graph
-
+####  By Trip Frequency By Hour (January 2015)
 ```{r}
 date <- strptime( as.character(dat$starttime), format = "%d/%m/%Y %H:%M")
 hour <- format( date, format = "%H" )
   
 hour.data <- data.frame(table(hour))
 
-par(mar=c(1.5,1.5,1.5,1.5))
+par(mar=c(1.5,1.5,0,1.5))
 plot.new()
 ymin <- min(hour.data$Freq)
 ymax <- max(hour.data$Freq)
-plot.window( xlim =c(-2,26),ylim=c(-70,10500))
+plot.window( xlim =c(-2,26),ylim=c(-300,10500))
 lines(x=hour.data$hour,y=hour.data$Freq,bty="n",yaxt="n",col="deeppink3")
 
-text(0,-50,label="0AM",cex=0.6)
-text(3,-50,label="3AM",cex=0.6)
-text(6,-50,label="6AM",cex=0.6)
-text(9,-50,label="9AM",cex=0.6)
-text(12,-50,label="12AM",cex=0.6)
-text(15,-50,label="3PM",cex=0.6)
-text(18,-50,label="6PM",cex=0.6)
-text(21,-50,label="9PM",cex=0.6)
-text(24,-50,label="12PM",cex=0.6)
-mtext("Hour of the Day",side=1,line=0.1, cex=0.8,font=2)
+# x labels 
+text(0,-300,label="0AM",cex=0.7)
+text(3,-300,label="3AM",cex=0.7)
+text(6,-300,label="6AM",cex=0.7)
+text(9,-300,label="9AM",cex=0.7)
+text(12,-300,label="12AM",cex=0.7)
+text(15,-300,label="3PM",cex=0.7)
+text(18,-300,label="6PM",cex=0.7)
+text(21,-300,label="9PM",cex=0.7)
+text(24,-300,label="12PM",cex=0.7)
+mtext("Hour of the Day",side=1,line=0.3, cex=0.7,font=2)
 
-text(-1,2000,label="2,000",cex=0.6)
-text(-1,4000,label="4,000",cex=0.6)
-text(-1,6000,label="6,000",cex=0.6)
-text(-1,8000,label="8,000",cex=0.6)
-text(-1,10000,label="10,000",cex=0.6)
-
-text(4.5,10500,label="Bike trip frequency",cex=1.0,font=2)
-text(2.8,9950,label="January 2015",cex=0.8)
+# y labels
+text(-1,2000,label="2,000",cex=0.7)
+text(-1,4000,label="4,000",cex=0.7)
+text(-1,6000,label="6,000",cex=0.7)
+text(-1,8000,label="8,000",cex=0.7)
+text(-1,10000,label="10,000",cex=0.7)
 ```
 
-### Distance travelled
+### Distance Travelled
 
 #### Description
 
@@ -359,7 +354,7 @@ end_point + geom_leg(aes(x = start.station.longitude, y = start.station.latitude
 
 ***
 
-Data table
+Data Table
 =====================================     
 
 ```{r}
